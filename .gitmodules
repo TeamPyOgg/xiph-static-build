@@ -1,0 +1,21 @@
+[submodule "ogg"]
+	path = ogg
+	url = https://github.com/TeamPyOgg/ogg
+[submodule "vorbis"]
+	path = vorbis
+	url = https://github.com/TeamPyOgg/vorbis
+[submodule "opus"]
+	path = opus
+	url = https://github.com/TeamPyOgg/opus
+[submodule "opusfile"]
+	path = opusfile
+	url = https://github.com/TeamPyOgg/opusfile
+[submodule "libopusenc"]
+	path = libopusenc
+	url = https://github.com/TeamPyOgg/libopusenc
+[submodule "flac"]
+	path = flac
+	url = https://github.com/TeamPyOgg/flac
+[submodule "openssl"]
+	path = openssl
+	url = https://github.com/TeamPyOgg/openssl
