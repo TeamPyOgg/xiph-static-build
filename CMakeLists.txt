@@ -2,6 +2,30 @@
 cmake_minimum_required(VERSION 3.15)
 project(StaticAudioLibs LANGUAGES C CXX)
 
+# Set output directories consistently across all configurations on Windows
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Specify output directories for each configuration in multi-config generators (like Visual Studio)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_BINARY_DIR}/bin)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_BINARY_DIR}/bin)
+
+
+
 # Define options to control static linking
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries")
 
@@ -22,6 +46,7 @@ set(OPUS_X86_PRESUME_AVX2 OFF CACHE BOOL "Disable Opus presumed AVX2 optimizatio
 
 # Disable optional components in FLAC
 set(BUILD_CXXLIBS OFF CACHE BOOL "Disable FLAC++ library" FORCE)               # FLAC++ library
+set(BUILD_PROGRAMS OFF CACHE BOOL "Do not build FLAC programs")
 set(BUILD_EXAMPLES OFF CACHE BOOL "Disable FLAC examples" FORCE)                # Examples
 set(BUILD_DOCS OFF CACHE BOOL "Disable FLAC documentation" FORCE)               # Documentation
 set(BUILD_TESTING OFF CACHE BOOL "Disable FLAC tests" FORCE)                    # Tests
@@ -43,6 +68,31 @@ add_subdirectory(opus)
 target_include_directories(opus PRIVATE ${CMAKE_SOURCE_DIR}/opus/include)
 
 add_subdirectory(flac)
+
+# Conditionally exclude unnecessary targets if they exist
+if(TARGET replaygain_analysis)
+    set_property(TARGET replaygain_analysis PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
+
+if(TARGET replaygain_synthesis)
+    set_property(TARGET replaygain_synthesis PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
+
+if(TARGET getopt)
+    set_property(TARGET getopt PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
+
+if(TARGET grabbag)
+    set_property(TARGET grabbag PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
+
+if(TARGET utf8)
+    set_property(TARGET utf8 PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
+
+if(TARGET benchmark_residual)
+    set_property(TARGET benchmark_residual PROPERTY EXCLUDE_FROM_ALL TRUE)
+endif()
 
 # Add Opusfile
 add_subdirectory(opusfile)
