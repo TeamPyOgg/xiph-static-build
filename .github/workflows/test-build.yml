@@ -1,0 +1,30 @@
+name: Test build
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            submodules: recursive
+
+      - name: cmake build
+        run: cmake -B build
+
+      - name: cmake build release
+        run: cmake --build build --config Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifact-${{matrix.os}}
+          path: ./build/lib/Release/*
+          
