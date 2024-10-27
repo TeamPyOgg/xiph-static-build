@@ -16,6 +16,3 @@
 [submodule "flac"]
 	path = flac
 	url = https://github.com/TeamPyOgg/flac
-[submodule "openssl"]
-	path = openssl
-	url = https://github.com/TeamPyOgg/openssl
